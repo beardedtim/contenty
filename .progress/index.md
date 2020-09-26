@@ -1,0 +1,4 @@
+- [First](./2020-09-26.md)
+  - Created base abstraction over the concept of `collection`
+  - Created folder structure and base HTTP abstractions
+  - No authentication/authorization
