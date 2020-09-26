@@ -1,0 +1,29 @@
+{
+  "name": "contenty",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Tim Roberts <timroberts@fastmail.org>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -r dotenv-flow/config start.js",
+    "fmt": "prettier --write \"**/*.js\""
+  },
+  "dependencies": {
+    "@sindresorhus/slugify": "^1.1.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "getenv": "^1.0.0",
+    "helmet": "^4.1.1",
+    "joi": "^17.2.1",
+    "knex": "^0.21.5",
+    "pg": "^8.3.3",
+    "pino": "^6.6.1",
+    "pino-pretty": "^4.2.1"
+  },
+  "devDependencies": {
+    "dotenv-flow": "^3.2.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2"
+  }
+}
