@@ -34,7 +34,7 @@ the system at this time.
   - [x] I can update a `collection`'s `name` or `slug`
   - [x] I can delete a `collection`
 
-- [ ] Documentation for System
+- [x] Documentation for System
   - [x] I have a `documentation` collection
   - [x] I have documentation on how to add a `collection`
     - [x] I have items in the `documentation` collection that detail, in order, what to do to CRUD a `collection`

@@ -2,3 +2,4 @@
   - Created base abstraction over the concept of `collection`
   - Created folder structure and base HTTP abstractions
   - No authentication/authorization
+  - Create Schemas for Collections
