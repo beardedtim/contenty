@@ -1,4 +1,5 @@
 const DBErrors = require('../errors/db')
+const JSONSchema = require('jsonschema')
 
 class NoCollectionWithSlug extends Error {
   constructor(slug) {
@@ -6,6 +7,17 @@ class NoCollectionWithSlug extends Error {
 
     this.message = `Cannot find collection with slug "${slug}"`
 
+    this.code = 400
+  }
+}
+
+class BadInput extends Error {
+  constructor(errors) {
+    super()
+
+    this.message = `Input failed validation :
+${errors.map(({ stack }) => stack)}
+`
     this.code = 400
   }
 }
@@ -22,6 +34,16 @@ const getCollection = async (slug, db) => {
   }
 
   return collection
+}
+
+const validateItem = (schema, item) => {
+  const valid = JSONSchema.validate(item, schema)
+
+  if (valid.errors.length) {
+    throw new BadInput(valid.errors)
+  }
+
+  return item
 }
 
 const safe_keys = ['id', 'data', 'last_updated', 'created_at']
@@ -51,6 +73,10 @@ module.exports.list = async (collectionSlug, query, db) => {
 module.exports.create = async (collectionSlug, item, db) => {
   const collection = await getCollection(collectionSlug, db)
 
+  if(collection.schema) {
+    item = validateItem(collection.schema, item)
+  }
+
   const [created] = await db
     .into('items')
     .insert({
@@ -64,19 +90,27 @@ module.exports.create = async (collectionSlug, item, db) => {
 
 const getById = (id, db) =>
   db.from('items').where({ id }).select(['id', 'data']).first()
+
 module.exports.getById = getById
 
-module.exports.updateById = async (id, update, db) => {
+module.exports.updateById = async ({ id, slug }, update, db) => {
+  const collection = await getCollection(slug)
+
   const item = await getById(id, db)
+  let newData = {
+    ...item.data,
+    ...update,
+  }
+
+  if (collection.schema) {
+    newData = validateItem(collection.schema, newData)
+  }
 
   const [updated] = await db
     .from('items')
     .where({ id })
     .update({
-      data: {
-        ...item.data,
-        ...update,
-      },
+      data: newData,
       last_updated: new Date().toISOString()
     })
     .returning(safe_keys)

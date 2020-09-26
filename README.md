@@ -43,9 +43,9 @@ the system at this time.
   - [x] I can see when I created an `item`
   - [x] I can see when I last updated an `item`
 
-- [ ] Schemas for `collections`
-  - [ ] I can create a schema for a `collection`
-  - [ ] I can validate the schema for a `collection
+- [x] Schemas for `collections`
+  - [x] I can create a schema for a `collection`
+  - [x] I can validate the schema for a `collection
 
 - [ ] Query `collections`
   - [ ] I can search by field text

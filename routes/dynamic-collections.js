@@ -50,7 +50,7 @@ Dynamic.get(
     '/:slug/:id',
     middleware.route(async (req, res) => {
       const data = await UseCases.Dynamic.updateById(
-        req.params.id,
+        req.params,
         req.body,
         db
       )
