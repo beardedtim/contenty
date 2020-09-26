@@ -24,13 +24,15 @@ const getCollection = async (slug, db) => {
   return collection
 }
 
+const safe_keys = ['id', 'data', 'last_updated', 'created_at']
+
 module.exports.list = async (collectionSlug, query, db) => {
   const collection = await getCollection(collectionSlug, db)
 
   return db
     .from('items')
     .where({ collection_id: collection.id, ...query.where })
-    .select(['id', 'data'])
+    .select(safe_keys)
     .limit(query.limit)
     .offset(query.offset)
     .orderBy(query.sort_col, query.sort_ord)
@@ -55,7 +57,7 @@ module.exports.create = async (collectionSlug, item, db) => {
       collection_id: collection.id,
       data: item,
     })
-    .returning(['id', 'data'])
+    .returning(safe_keys)
 
   return created
 }
@@ -75,8 +77,9 @@ module.exports.updateById = async (id, update, db) => {
         ...item.data,
         ...update,
       },
+      last_updated: new Date().toISOString()
     })
-    .returning(['id', 'data'])
+    .returning(safe_keys)
 
   return updated
 }
@@ -86,7 +89,7 @@ module.exports.deleteById = async (id, db) => {
     .from('items')
     .where({ id })
     .del()
-    .returning(['id', 'data'])
+    .returning(safe_keys)
 
   return removed
 }

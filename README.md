@@ -34,6 +34,15 @@ the system at this time.
   - [x] I can update a `collection`'s `name` or `slug`
   - [x] I can delete a `collection`
 
+- [ ] Documentation for System
+  - [x] I have a `documentation` collection
+  - [x] I have documentation on how to add a `collection`
+    - [x] I have items in the `documentation` collection that detail, in order, what to do to CRUD a `collection`
+
+- [x] Dates for `items`
+  - [x] I can see when I created an `item`
+  - [x] I can see when I last updated an `item`
+
 - [ ] Schemas for `collections`
   - [ ] I can create a schema for a `collection`
   - [ ] I can validate the schema for a `collection
