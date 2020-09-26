@@ -24,3 +24,15 @@
       - HTML/Markdown
     - Price
     - Inventory Count
+  
+## TODO
+
+- [ ] I can create schemas for the collections
+  - Some JSON input that matches JSON Schema
+  - [ ] Enforce items against schema
+  - [ ] Allow non-schema items to create
+
+- [ ] I can search items of a collection
+  - Arbitrary keys
+  - Arbitrary values
+  - Arbitrary sort
