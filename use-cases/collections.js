@@ -1,3 +1,5 @@
+const DBErrors = require('../errors/db')
+
 class DuplicateCollectionName extends Error {
   constructor(name) {
     super()
@@ -16,14 +18,6 @@ class DuplicateCollectionSlug extends Error {
   }
 }
 
-class MissingColumn extends Error {
-  constructor(column, action) {
-    super()
-
-    this.message = `You cannot ${action} with column "${column}" due to it not existing in the database.`
-    this.code = 400
-  }
-}
 
 module.exports.create = async (collection, db) => {
   try {
@@ -61,7 +55,7 @@ module.exports.list = (query, db) =>
       const columnMissing = regexp.exec(err)
 
       if (columnMissing) {
-        throw new MissingColumn(columnMissing[1], 'query')
+        throw new DBErrors.MissingColumn(columnMissing[1], 'query')
       } else {
         throw err
       }
