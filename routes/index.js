@@ -7,8 +7,7 @@ const DynamicCollections = require('./dynamic-collections')
 
 const Routes = Router()
 
-Routes
-  .use(bodyParser.json())
+Routes.use(bodyParser.json())
   .use('/db', DB)
   .use('/collections', Collections)
   .use(DynamicCollections)

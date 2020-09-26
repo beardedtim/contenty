@@ -13,7 +13,7 @@ const createCollectionSchema = Joi.object({
 
 const updateCollectionSchema = Joi.object({
   name: Joi.string().optional(),
-  slug: Joi.string().optional()
+  slug: Joi.string().optional(),
 })
 
 const Collections = Router()
@@ -56,8 +56,10 @@ Collections.post(
     middleware.route(async (req, res) => {
       const data = await UseCases.Collections.getById(req.params.id, db)
 
-      if(!data) {
-        throw new HTTPErrors.ResourceNotFound(`Collection::ID::${req.params.id}`)
+      if (!data) {
+        throw new HTTPErrors.ResourceNotFound(
+          `Collection::ID::${req.params.id}`
+        )
       }
 
       res.json({ data })
@@ -73,7 +75,11 @@ Collections.post(
         body.slug = slugify(body.slug)
       }
 
-      const data = await UseCases.Collections.updateById(req.params.id, req.body, db)
+      const data = await UseCases.Collections.updateById(
+        req.params.id,
+        req.body,
+        db
+      )
 
       res.status(201).json({ data })
     })

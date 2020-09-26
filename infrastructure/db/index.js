@@ -10,7 +10,7 @@ const DB = Knex({
     host: env.string('DB_HOST'),
     port: env.int('DB_PORT'),
     database: env.string('DB_NAME'),
-  }
+  },
 })
 
 module.exports = DB

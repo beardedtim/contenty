@@ -18,7 +18,6 @@ class DuplicateCollectionSlug extends Error {
   }
 }
 
-
 module.exports.create = async (collection, db) => {
   try {
     const [saved] = await db
@@ -71,13 +70,15 @@ module.exports.delete = async (id, db) => {
   return removed
 }
 
-
-module.exports.getById = (id, db) => db.from('collections').where({ id }).select('*').first()
+module.exports.getById = (id, db) =>
+  db.from('collections').where({ id }).select('*').first()
 
 module.exports.updateById = async (id, update, db) => {
-  const [updated] = await db.from('collections').where({ id })
+  const [updated] = await db
+    .from('collections')
+    .where({ id })
     .update(update)
     .returning('*')
-  
+
   return updated
 }
