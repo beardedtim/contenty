@@ -47,7 +47,7 @@ the system at this time.
   - [x] I can create a schema for a `collection`
   - [x] I can validate the schema for a `collection
 
-- [ ] Query `collections`
+- [x] Query `collections`
   - [x] I can search by field text
   - [x] I can search by greater than/less than values
 
