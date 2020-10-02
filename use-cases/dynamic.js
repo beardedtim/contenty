@@ -53,12 +53,20 @@ module.exports.list = async (collectionSlug, query, db) => {
 
   return db
     .from('items')
-    .where({ collection_id: collection.id, ...query.where })
+    .where({ collection_id: collection.id })
+    .andWhere(builder =>  {
+      for (const [key, { value, relation }] of Object.entries(query.where))   {
+       builder.andWhereRaw(`${key} ${relation} ?`, [value])
+      }
+
+      return builder
+    })
     .select(safe_keys)
     .limit(query.limit)
     .offset(query.offset)
     .orderBy(query.sort_col, query.sort_ord)
     .catch((err) => {
+      console.dir(err)
       const regexp = /column "(.+)" does not exist/
       const columnMissing = regexp.exec(err)
 

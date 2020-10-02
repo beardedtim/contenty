@@ -48,9 +48,8 @@ the system at this time.
   - [x] I can validate the schema for a `collection
 
 - [ ] Query `collections`
-  - [ ] I can search by field text
-  - [ ] I can search by greater than/less than values
-  - [ ] I can include only select keys of the items
+  - [x] I can search by field text
+  - [x] I can search by greater than/less than values
 
 - [ ] Join `collections`
   - [ ] I can store a relationship between two collections

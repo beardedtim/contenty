@@ -11,6 +11,7 @@ const DB = Knex({
     port: env.int('DB_PORT'),
     database: env.string('DB_NAME'),
   },
+  debug: true
 })
 
 module.exports = DB
