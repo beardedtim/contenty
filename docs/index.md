@@ -1,0 +1,3 @@
+# Docs
+
+- [FAQ](./faq.md)

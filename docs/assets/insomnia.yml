@@ -1,0 +1,245 @@
+_type: export
+__export_format: 4
+__export_date: 2020-10-02T21:24:57.964Z
+__export_source: insomnia.desktop.app:v2020.4.1
+resources:
+  - _id: req_018bc3d1bd584490a7683f5209bcd83e
+    parentId: fld_85dc1a9bcdb54071bac83f58a5c76bd4
+    modified: 1601138808311
+    created: 1601138802139
+    url: localhost:5050/db/rollback
+    name: Rollback
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1601138802139
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_85dc1a9bcdb54071bac83f58a5c76bd4
+    parentId: wrk_7eedd0cb45d44c3196a49f2b8adab4ab
+    modified: 1601138785285
+    created: 1601138785285
+    name: DB
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1601138785285
+    _type: request_group
+  - _id: wrk_7eedd0cb45d44c3196a49f2b8adab4ab
+    parentId: null
+    modified: 1601135855095
+    created: 1601135855095
+    name: Contenty
+    description: ""
+    scope: null
+    _type: workspace
+  - _id: req_5436c88c93e54b30a0ae7251bdff8b9a
+    parentId: fld_85dc1a9bcdb54071bac83f58a5c76bd4
+    modified: 1601138794871
+    created: 1601138788539
+    url: localhost:5050/db/migrate
+    name: Migrate
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1601138788539
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_a1589af20611450ab815d4aefcd4d471
+    parentId: fld_0d3bdace205f47e6becf5f758ec63ff7
+    modified: 1601144834631
+    created: 1601135868545
+    url: localhost:5050/collections
+    name: Create Collection
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "Foobar",
+        	"schema": {
+        		"type": "object",
+        		"required": ["abc"],
+        		"properties": {
+        			"abc": {
+        				"type": "string",
+        				"format": "uuid"
+        			},
+        			"def": {
+        				"type": "string",
+        				"format": "email"
+        			}
+        		}
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_4c4e720984324ba3b20f375bcf06f640
+    authentication: {}
+    metaSortKey: -1601138068031
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_0d3bdace205f47e6becf5f758ec63ff7
+    parentId: wrk_7eedd0cb45d44c3196a49f2b8adab4ab
+    modified: 1601135860604
+    created: 1601135860604
+    name: Collections
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1601135860604
+    _type: request_group
+  - _id: req_01e7ff3e4619444aae55418cf811f278
+    parentId: fld_0d3bdace205f47e6becf5f758ec63ff7
+    modified: 1601143007268
+    created: 1601137421383
+    url: localhost:5050/collections
+    name: List Collections
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1601138067981
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_29c788da913e433e959f64400092c1e4
+    parentId: fld_0d3bdace205f47e6becf5f758ec63ff7
+    modified: 1601138202048
+    created: 1601138067931
+    url: localhost:5050/collections/2a5d5e2f-75e3-46b0-9658-ee2041f0c3a6
+    name: Get Collection By ID
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1601138067931
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_c9db5e75e3d441ff92baa2a48de82ab8
+    parentId: fld_0d3bdace205f47e6becf5f758ec63ff7
+    modified: 1601145568405
+    created: 1601138347898
+    url: localhost:5050/collections/b69f8259-127b-49f5-afbb-75798d854852
+    name: Update by ID
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"schema": {
+        		"type": "object",
+        		"required": ["abc"],
+        		"properties": {
+        			"abc": {
+        				"type": "string",
+        				"format": "email"
+        			}
+        		}
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_d76ba906208d4da9a3bc175ebcf29f44
+    authentication: {}
+    metaSortKey: -1601138014844.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_210ed00fb02f457da435e7d89bc03d0c
+    parentId: fld_0d3bdace205f47e6becf5f758ec63ff7
+    modified: 1601137968270
+    created: 1601137961758
+    url: localhost:5050/collections/0cdf7d23-3f75-4406-a9ec-c491eedf81c4
+    name: Delete Collection
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1601137961758
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_b577f6e27e6e13b4a78f54d7599a69a1398c9184
+    parentId: wrk_7eedd0cb45d44c3196a49f2b8adab4ab
+    modified: 1601135855282
+    created: 1601135855282
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1601135855282
+    _type: environment
+  - _id: jar_b577f6e27e6e13b4a78f54d7599a69a1398c9184
+    parentId: wrk_7eedd0cb45d44c3196a49f2b8adab4ab
+    modified: 1601135855284
+    created: 1601135855284
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_c66e559b13e342d4867e54f587f1cac3
+    parentId: wrk_7eedd0cb45d44c3196a49f2b8adab4ab
+    modified: 1601135855116
+    created: 1601135855116
+    fileName: Contenty
+    contents: ""
+    contentType: yaml
+    _type: api_spec

@@ -11,6 +11,10 @@ This is a Content Management System built in Node using
 - [Express][express] for HTTP Server
 - [Pino][pino] for Logging
 
+## Docs
+
+You can find all of the documentation for this project in the [docs](./docs/index.md) folder.
+
 ## Progress
 
 You can track the progress of this project [here][internal-progress]
