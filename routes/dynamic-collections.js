@@ -2,19 +2,22 @@ const { Router } = require('express')
 const R = require('ramda')
 const middleware = require('../server/middleware')
 const UseCases = require('../use-cases')
+
 const db = require('../infrastructure/db')
+const queues = require('../infrastructure/queues')
+
 const HTTPErrors = require('../errors/http')
 
 const Dynamic = Router()
 
 const formatQueryValue = R.identity
-const formatQueryKey = key => {
+const formatQueryKey = (key) => {
   const VALID_KEYS = ['created_at', 'last_updated']
 
   if (VALID_KEYS.indexOf(key) > -1) {
     return key
   }
-  
+
   return `data::jsonb->>'${key}'`
 }
 
@@ -23,30 +26,30 @@ const formatRelationValue = (value) => {
   let formattedRelation = 'LIKE'
 
   const KNOWN_TOKENS = [
-    '!', /** NOT */
-    'gte', /** GREATER THAN OR EQUAL TO */
-    'gt', /** GREATER THAN */
-    'lte', /** LESS THAN OR EQUAL TO */
-    'lt', /** LESS THAN */
-    '~', /** ILIKE %value% */
-    'before', /**BEFORE A SPECIFIC DATE */
-    'after', /** AFTER A SPECIFIC DATE */
+    '!' /** NOT */,
+    'gte' /** GREATER THAN OR EQUAL TO */,
+    'gt' /** GREATER THAN */,
+    'lte' /** LESS THAN OR EQUAL TO */,
+    'lt' /** LESS THAN */,
+    '~' /** ILIKE %value% */,
+    'before' /**BEFORE A SPECIFIC DATE */,
+    'after' /** AFTER A SPECIFIC DATE */,
   ]
 
   const TOKEN_MAPPING = {
     '!': 'NOT',
-    'gte': '>=',
-    'gt': '>',
-    'lte': '<=',
-    'lt': '<',
+    gte: '>=',
+    gt: '>',
+    lte: '<=',
+    lt: '<',
     '~': 'ILIKE',
-    'before': '<',
-    'after': '>'
+    before: '<',
+    after: '>',
   }
 
   const VALUE_MAPPING = {
-    'ILIKE': v => `%${v}%`,
-    'LIKE': v => `%${v}%`,
+    ILIKE: (v) => `%${v}%`,
+    LIKE: (v) => `%${v}%`,
   }
 
   // Allow us to also search for known tokens
@@ -68,19 +71,17 @@ const formatRelationValue = (value) => {
 
   if (VALUE_MAPPING[formattedRelation]) {
     formattedValue = VALUE_MAPPING[formattedRelation](formattedValue)
-  } 
-  
+  }
+
   return {
     value: formattedValue,
-    relation: formattedRelation
+    relation: formattedRelation,
   }
 }
 
 const formatQuery = R.compose(
-  R.reduce((a, c) => R.mergeLeft({ [c[0]]: formatRelationValue(c[1])}, a), {}),
-  R.map(([key, value]) =>
-    ([formatQueryKey(key), formatQueryValue(value)])
-  ),
+  R.reduce((a, c) => R.mergeLeft({ [c[0]]: formatRelationValue(c[1]) }, a), {}),
+  R.map(([key, value]) => [formatQueryKey(key), formatQueryValue(value)]),
   R.filter(([key]) => {
     const other_keys = ['limit', 'offset', 'sort_col', 'sort_ord']
 
@@ -114,8 +115,20 @@ Dynamic.get(
     '/:slug',
     middleware.route(async (req, res) => {
       const { body } = req
+      const events = {
+        publish: (...args) => {
+          console.dir(args)
 
-      const data = await UseCases.Dynamic.create(req.params.slug, body, db)
+          return true
+        },
+      }
+
+      const data = await UseCases.Dynamic.create(
+        req.params.slug,
+        body,
+        db,
+        queues.events
+      )
 
       res.status(201).json({ data })
     })
@@ -140,7 +153,8 @@ Dynamic.get(
       const data = await UseCases.Dynamic.updateById(
         req.params,
         req.body,
-        db
+        db,
+        queues.events
       )
 
       res.json({ data })
@@ -149,7 +163,11 @@ Dynamic.get(
   .delete(
     '/:slug/:id',
     middleware.route(async (req, res) => {
-      const data = await UseCases.Dynamic.deleteById(req.params.id, db)
+      const data = await UseCases.Dynamic.deleteById(
+        req.params.id,
+        db,
+        queues.events
+      )
 
       res.json({ data })
     })

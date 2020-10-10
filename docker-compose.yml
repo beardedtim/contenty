@@ -5,3 +5,8 @@ services:
     ports:
       - "9098:5432"
     env_file: config/datastore/.env
+  
+  queues:
+    image: redis
+    ports:
+      - "9878:6379"

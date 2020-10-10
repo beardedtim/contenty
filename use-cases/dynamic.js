@@ -1,4 +1,5 @@
 const DBErrors = require('../errors/db')
+const Events = require('../events')
 const JSONSchema = require('jsonschema')
 
 class NoCollectionWithSlug extends Error {
@@ -54,9 +55,9 @@ module.exports.list = async (collectionSlug, query, db) => {
   return db
     .from('items')
     .where({ collection_id: collection.id })
-    .andWhere(builder =>  {
-      for (const [key, { value, relation }] of Object.entries(query.where))   {
-       builder.andWhereRaw(`${key} ${relation} ?`, [value])
+    .andWhere((builder) => {
+      for (const [key, { value, relation }] of Object.entries(query.where)) {
+        builder.andWhereRaw(`${key} ${relation} ?`, [value])
       }
 
       return builder
@@ -78,10 +79,10 @@ module.exports.list = async (collectionSlug, query, db) => {
     })
 }
 
-module.exports.create = async (collectionSlug, item, db) => {
+module.exports.create = async (collectionSlug, item, db, events) => {
   const collection = await getCollection(collectionSlug, db)
 
-  if(collection.schema) {
+  if (collection.schema) {
     item = validateItem(collection.schema, item)
   }
 
@@ -93,6 +94,8 @@ module.exports.create = async (collectionSlug, item, db) => {
     })
     .returning(safe_keys)
 
+  await events.publish(Events.created.action(collectionSlug, created))
+
   return created
 }
 
@@ -101,8 +104,8 @@ const getById = (id, db) =>
 
 module.exports.getById = getById
 
-module.exports.updateById = async ({ id, slug }, update, db) => {
-  const collection = await getCollection(slug)
+module.exports.updateById = async ({ id, slug }, update, db, events) => {
+  const collection = await getCollection(slug, db)
 
   const item = await getById(id, db)
   let newData = {
@@ -119,19 +122,23 @@ module.exports.updateById = async ({ id, slug }, update, db) => {
     .where({ id })
     .update({
       data: newData,
-      last_updated: new Date().toISOString()
+      last_updated: new Date().toISOString(),
     })
     .returning(safe_keys)
+
+  await events.publish(Events.updated.action(slug, updated))
 
   return updated
 }
 
-module.exports.deleteById = async (id, db) => {
+module.exports.deleteById = async (id, db, events) => {
   const [removed] = await db
     .from('items')
     .where({ id })
     .del()
     .returning(safe_keys)
+
+  await events.publish(Events.deleted.action(removed))
 
   return removed
 }

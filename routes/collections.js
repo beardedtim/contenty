@@ -9,13 +9,13 @@ const HTTPErrors = require('../errors/http')
 const createCollectionSchema = Joi.object({
   name: Joi.string().required(),
   slug: Joi.string().optional(),
-  schema: Joi.object().optional()
+  schema: Joi.object().optional(),
 })
 
 const updateCollectionSchema = Joi.object({
   name: Joi.string().optional(),
   slug: Joi.string().optional(),
-  schema: Joi.object().optional()
+  schema: Joi.object().optional(),
 })
 
 const Collections = Router()

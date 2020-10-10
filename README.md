@@ -62,6 +62,19 @@ the system at this time.
   - [ ] I can get the relationships in a single query
     - [ ] I can make one request to get the `post` and the `comments` for that post
 
+- [x] Events / Async Processing
+  - [x] I can send events to a queue to be processed
+  - [x] I can create handlers for queued events
+
+- [ ] Sentiment Analysis on News Articles
+  - [x] I can download News Articles
+  - [x] I can parse corpus for positivity
+  - [ ] I can parse corpus for objectivness
+    - [x] I can rank more nouns as more objective
+    - [x] I can rank more adjectives as more subjective
+    - [ ] I can rank more subjective corpus as subjective
+    - [ ] I can rank more objective corpus as objective
+
 [postgres]: https://www.postgresql.org/
 [knex]: http://knexjs.org/
 [express]: http://expressjs.com/

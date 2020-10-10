@@ -3,6 +3,7 @@ const env = require('getenv')
 const Log = require('./infrastructure/log')
 const Server = require('./server')
 const Routes = require('./routes')
+const Workers = require('./workers')
 
 const server = new Server({ routes: Routes })
 
@@ -19,3 +20,4 @@ process.on('uncaughtException', cleanup('Uncaught Exception'))
 process.on('unhandledRejection', cleanup('Unhandled Rejection'))
 
 server.start(port, () => Log.info({ port }, 'Service Started'))
+Workers.start(() => Log.info('Workers Started'))
