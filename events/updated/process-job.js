@@ -31,10 +31,11 @@ const doAnalysis = async (job) => {
   const item_id = getItemID(job)
   const text = getArticleText(job)
   const positiveness = await textAnalysis.positiveness(text)
+  const objectiveness = await textAnalysis.objectiveness(text)
 
   await UseCases.Dynamic.updateById(
     { slug: SLUG, id: item_id },
-    { analysis: { positiveness } },
+    { analysis: { positiveness, objectiveness } },
     db,
     Queues.events
   )
